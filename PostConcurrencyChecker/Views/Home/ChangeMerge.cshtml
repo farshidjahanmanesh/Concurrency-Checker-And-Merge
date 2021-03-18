@@ -1,0 +1,112 @@
+﻿@model Tuple<Post, Post>
+<div class="col-12">
+    <h1 style="text-align:center">عنوان اصلی</h1>
+    <div class="col-6" style="float:left">
+        <h2>
+            نسخه اصلی
+        </h2>
+        <pre id="lastTitle">
+        @Model.Item1.Title
+        </pre>
+    </div>
+
+
+    <div class="col-6" style="float:right">
+        <h2>
+            نسخه شما
+        </h2>
+        <pre id="newTitle">
+        @Model.Item2.Title
+        </pre>
+    </div>
+</div>
+<div class="col-12">
+    <h1 style="text-align:center">متن اصلی</h1>
+    <div class="col-6" style="float:left">
+        <h2>
+            نسخه اصلی
+        </h2>
+        <pre id="last">
+        @Model.Item1.Description
+        </pre>
+    </div>
+
+
+    <div class="col-6" style="float:right">
+        <h2>
+            نسخه شما
+        </h2>
+        <pre id="new">
+        @Model.Item2.Description
+        </pre>
+    </div>
+</div>
+
+
+<div class="col-12">
+    <form asp-action="SaveMerge" asp-controller="home" method="post">
+        <input type="hidden" name="Title" value="@Model.Item2.Title" />
+        <input type="hidden" name="Description" value="@Model.Item2.Description" />
+        <input type="hidden" name="id" value="@Model.Item2.Id" />
+        <div>
+            <label>نسخه اصلی</label>
+            <input type="radio" name="version" value="1" />
+        </div>
+        <div>
+            <label>نسخه شما</label>
+            <input type="radio" name="version" value="2" />
+        </div>
+        <div>
+            <input type="submit" value="ثبت" />
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    <script>
+
+        window.onload = function () {
+            var newData = $("#new").text().trim();
+            var lastData = $("#last").text().trim();
+            var l1 = newData.length;
+            var l2 = lastData.length;
+            var newDes = "";
+
+            for (var i = 0; i < l1; i++) {
+                if (newData[i] != lastData[i]) {
+                    newDes += "<span style=color:red;>" + newData[i] + "</span>";
+                } else {
+                    newDes += newData[i];
+                }
+            }
+            if (l2 < l1)
+                for (var i = l2; i < l1; i++) {
+                    newDes += "<span style=color:red;>" + newData[i] + "</span>";
+                }
+            
+            $("#new").html(newDes);
+
+
+            var newTitle = $("#newTitle").text().trim();
+            var lastTitle = $("#lastTitle").text().trim();
+            var l1 = newTitle.length;
+            var l2 = lastTitle.length;
+            var newTitleData = "";
+
+            for (var i = 0; i < l1; i++) {
+                if (newTitle[i] != lastTitle[i]) {
+                    newTitleData += "<span style=color:red;>" + newTitle[i] + "</span>";
+                } else {
+                    newTitleData += newTitle[i];
+                }
+            }
+            if (l2 < l1)
+                for (var i = l2; i < l1; i++) {
+                    newTitleData += "<span style=color:red;>" + newTitle[i] + "</span>";
+                }
+            
+            $("#newTitle").html(newTitleData);
+        };
+    </script>
+
+}

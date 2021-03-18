@@ -1,0 +1,38 @@
+﻿@model List<Post>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<table class="table">
+    <tr>
+        <th>number</th>
+        <th>title</th>
+        <th>Edit</th>
+    </tr>
+    @{int count = 0; }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @count
+            </td>
+            <td >
+                @item.Title
+            </td>
+            <td>
+                <a asp-action="Edit" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+            </td>
+        </tr>
+
+       { count++;}
+     }
+</table>
+
+@section scripts{ 
+<script>
+   
+    
+</script>
+
+}
